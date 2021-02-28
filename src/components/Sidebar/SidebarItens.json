@@ -1,0 +1,27 @@
+[
+    {
+        "name": "Plantas",
+        "href": "/plants",
+        "icon": ""
+    },
+    {
+        "name": "Clientes",
+        "href": "/clients",
+        "icon": ""
+    },
+    {
+        "name": "Vendas",
+        "href": "/sales",
+        "icon": ""
+    },
+    {
+        "name": "Fornecedores",
+        "href": "/providers",
+        "icon": ""
+    },
+    {
+        "name": "Configurações",
+        "href": "/configs",
+        "icon": ""
+    }
+]

@@ -18,7 +18,12 @@ export const GlobalStyles = createGlobalStyle`
         font-weight: 300;
     }
     a {
+        font-family: 'Roboto';
         outline: 0;
+    }
+
+    li {
+        font-family: 'Nunito';
     }
     
 `

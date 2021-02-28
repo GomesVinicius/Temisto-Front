@@ -25,4 +25,9 @@ export const Button = styled.button `
         font-size: 1.7rem;
         box-shadow: 3px 4px 4px rgba(68, 224, 0, 0.45);
     }
+
+    :active {
+        transform: scale(1.00);
+        box-shadow: 2px 3px 3px rgba(68, 224, 0, 0.45);
+    }
 `
