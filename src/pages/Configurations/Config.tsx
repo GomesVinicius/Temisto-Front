@@ -1,4 +1,5 @@
 import React from 'react'
+import ButtonPlus from '../../components/ButtonPlus/ButtonPlus'
 import { Container } from './style'
 
 const Config = () => {
@@ -6,6 +7,7 @@ const Config = () => {
         <>
             <Container>
                 <h1>Configurações</h1>
+                <ButtonPlus />
             </Container>
         </>
     )

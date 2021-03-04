@@ -7,21 +7,29 @@ export const Container = styled.div`
     position: absolute;
     bottom: 0;
     right: 0;
-    margin: 15px 15px;
+    margin: 20px 20px;
     height: 76px;
     width: 76px;
-    background-color: gray;
+    background-color: #CACACA;
     border-radius: 50%;
+
+    cursor: pointer;
+
+    transition: 0.4s;
+
+    :hover {
+        transform: rotate(180deg);
+    }
 `
 
 export const Icon = styled.div`
     margin: 0;
     padding: 0;
     outline: 0;
-    height: 80%;
-    width: 80%;
+    height: 68%;
+    width: 68%;
 
-    border: 3px solid black;
+    border: 3.3px solid black;
     border-radius: 50%;
 `
 
@@ -31,5 +39,6 @@ export const Text = styled.span`
     width: 100%;
     justify-content: center;
     align-items: center;
-    font-size: 72px;
+    font-size: 52pt;
+    font-weight: 500;
 `

@@ -1,5 +1,6 @@
 import React from 'react';
 import ButtonCustom from '../../components/Button/ButtonCustom';
+import ButtonPlus from '../../components/ButtonPlus/ButtonPlus';
 import InputCustom from '../../components/Input/InputCustom';
 import { Title } from '../../Global/styles';
 import { Container, InputArea, ButtonArea } from './style';
@@ -18,6 +19,8 @@ const Plants = () => {
             <ButtonArea>
                 <ButtonCustom label="Salvar" typeButton="submit" />
             </ButtonArea>
+
+            <ButtonPlus />
         </Container>
     )
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import ButtonPlus from '../../components/ButtonPlus/ButtonPlus'
 import { Container } from './style'
 
 const Sales = () => {
@@ -7,6 +8,8 @@ const Sales = () => {
             <Container>
                 <h1>Vendas</h1>
             </Container>
+
+            <ButtonPlus />
         </>
     )
 }

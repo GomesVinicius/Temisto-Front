@@ -4,6 +4,10 @@ interface NavbarProps {
     open: number;
 }
 
+interface DivLinkProps {
+    path?: string;
+}
+
 export const Navbar = styled.div<NavbarProps>`
     background-color: white;
     display: flex;
@@ -23,6 +27,7 @@ export const List = styled.ul`
     width: 100%;
     margin-right: 1.2rem;
 `
+
 export const ItemCloseSidebar = styled.li`
     width: 100%;
     height: 80px;
@@ -45,32 +50,28 @@ export const ItemList = styled.li`
     }
 `
 
-export const Link = styled.a`
-    color: black;
-    font-size: 2rem;
+export const DivLink = styled.div<DivLinkProps>`
     background: none;
     display: flex;
     justify-content: center;
     transition: 0.2ms;
-    text-decoration: none;
     margin: 2rem 0;
 
+    a {
+        font-weight: ${props => `${props.path}`};
+        color: black;
+        font-size: 2rem;
+        background: none;
+        justify-content: center;
+        text-decoration: none;
+        transition: 0.2s;
+
     :hover, :active {
-        font-weight: 700;
+        transform: scale(1.08);
     }
-    /* text-decoration: none;
-    color: #f5f5f5;
-    font-size: 18px;
-    width: 95%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    padding: 0 16px;
-    border-radius: 4px;
-    outline: 0; */
+    }
 `
 
-//
 export const MenuBars = styled.a`
     margin-left: 2rem;
     font-size: 2rem;
