@@ -3,6 +3,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import Sidebar from '../components/Sidebar/Sidebar';
 import Clients from '../pages/Clients/clients';
 import Config from '../pages/Configurations/Config';
+import Home from '../pages/Home/home';
 
 import Login from '../pages/Login/login';
 import Plants from '../pages/Plants/plants';
@@ -19,6 +20,7 @@ const Routes = () => {
             <Route path="/sales" component={Sales} />
             <Route path="/providers" component={Providers} />
             <Route path="/configs" component={Config} />
+            <Route path="/home" component={Home} />
         </BrowserRouter>
     )
 }

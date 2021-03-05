@@ -11,11 +11,11 @@ const Sidebar = () => {
 
     return (
         <>
-            <Navbar open={open ? 0 : -15.5} onClick={showSidebar}>
+            <Navbar onClick={showSidebar}>
                 <List>
-                    <ItemCloseSidebar>
+                    <ItemCloseSidebar open={open ? 0 : -15.5}>
                         <DivLink>
-                            <Link to='#'> = </Link>
+                            <Link to='#'> {open ? 'X' : '='} </Link>
                         </DivLink>
                     </ItemCloseSidebar>
                     {
