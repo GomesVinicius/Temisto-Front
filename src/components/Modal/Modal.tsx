@@ -10,7 +10,6 @@ const ModalCustom: React.FC<ModalPropps> = ({ layout: Layout ,...rest }) => {
     return (
         <>
             <Container {...rest}>
-                Testando
                 <Layout />
             </Container>
         </>

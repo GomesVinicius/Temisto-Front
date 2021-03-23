@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import ClientService from '../../callApi/Client'
-import ButtonPlus from '../../components/ButtonPlus/ButtonPlus'
-import ModalCustom from '../../components/Modal/Modal'
-import ModalClient from '../../modalPages/Clients/ModalClients'
-import { Client } from '../../models/Client'
+import React, { useEffect, useState } from 'react';
+import ClientService from '../../callApi/Client';
+import ButtonPlus from '../../components/ButtonPlus/ButtonPlus';
+import ModalCustom from '../../components/Modal/Modal';
+import ModalClient from '../../modalPages/Clients/ModalClients';
+import { Client } from '../../models/Client';
 
-import { Container, Table, TableArea, TableBody, TableColumn, TableHead, TableRow, TableHeadCollumn } from './style'
+import { Container } from './style';
+import { Table, TableArea, TableBody, TableColumn, TableHead, TableRow, TableHeadCollumn } from '../../Global/styles';
 
 const Clients = () => {
     const [client, setClient] = useState<Client>({} as Client);
-    const [clients, setClients] = useState<Client[]>();
+    const [clients, setClients] = useState<Client[]>([{}] as Client[]);
 
     const [openModal, setOpenModal] = useState<boolean>(false);
 
@@ -27,7 +28,7 @@ const Clients = () => {
 
     return (
         <>
-            <Container transparent={openModal ? 'rgba(0, 0, 0, 0.6)' : ''}>
+            <Container transparent={openModal ? 'rgba(0, 0, 0, 0.3)' : ''}>
                 <TableArea>
                     <Table>
                         <TableHead>
@@ -42,7 +43,7 @@ const Clients = () => {
 
                         <TableBody>
                             {clients?.map(client => (
-                                <TableRow key={client.id?.toString()}>
+                                <TableRow key={client.name}>
                                     <TableColumn>
                                         {client.id}
                                     </TableColumn>                                    

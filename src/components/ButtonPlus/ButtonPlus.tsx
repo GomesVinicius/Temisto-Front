@@ -1,5 +1,5 @@
-import React, { ButtonHTMLAttributes } from 'react'
-import { Container, Icon, Text } from './style'
+import React, { ButtonHTMLAttributes } from 'react';
+import { Container, Icon, Text } from './style';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     func: Function;

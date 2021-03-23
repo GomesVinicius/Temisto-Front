@@ -1,6 +1,6 @@
-import React from 'react'
-import ButtonPlus from '../../components/ButtonPlus/ButtonPlus'
-import { Container } from './style'
+import React from 'react';
+import ButtonPlus from '../../components/ButtonPlus/ButtonPlus';
+import { Container } from './style';
 
 const Config = () => {
     return (

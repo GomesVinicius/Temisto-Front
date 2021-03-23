@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { Navbar, List, ItemCloseSidebar, DivLink } from './style';
 import { Link } from 'react-router-dom';
 import sidebarItens from './SidebarItens.json';
