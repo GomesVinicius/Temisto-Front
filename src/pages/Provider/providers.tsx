@@ -8,7 +8,7 @@ const Providers = () => {
             <Container>
                 <h1>Fornecedores</h1>
             </Container>
-            <ButtonPlus />
+            <ButtonPlus func={() => {}} />
         </>
     )
 }

@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { ButtonHTMLAttributes } from 'react'
 import { Container, Icon, Text } from './style'
 
-const ButtonPlus = () => {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+    func: Function;
+}
+
+const ButtonPlus: React.FC<ButtonProps> = ({ func, ...rest }) => {
     return (
         <>
-            <Container>
+            <Container onClick={() => func()}>
                 <Icon>
                     <Text> + </Text>
                 </Icon>
@@ -13,4 +17,4 @@ const ButtonPlus = () => {
     )
 }
 
-export default ButtonPlus
+export default ButtonPlus;

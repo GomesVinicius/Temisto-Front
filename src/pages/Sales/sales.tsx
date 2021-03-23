@@ -9,7 +9,7 @@ const Sales = () => {
                 <h1>Vendas</h1>
             </Container>
 
-            <ButtonPlus />
+            <ButtonPlus func={() => {}} />
         </>
     )
 }

@@ -1,25 +1,21 @@
 import styled from 'styled-components';
 
 interface NavbarProps {
-    open?: number;
+    open: number;
 }
 
 interface DivLinkProps {
     path?: string;
 }
 
-export let test:NavbarProps;
-
 export const Navbar = styled.div<NavbarProps>`
-    
-    left: ${(teste: NavbarProps) => `${teste.open}%`};
+    left: ${props => `${props.open}%`};
     background-color: white;
     display: flex;
     justify-content: start;
     align-items: flex-start;
     width: 22rem;
     height: 100%;
-    left: 0;
     position: fixed;
     transition: 850ms;
 
@@ -30,16 +26,19 @@ export const List = styled.ul`
     list-style-type: none;
     width: 100%;
     margin-right: 1.2rem;
+
+    cursor: pointer;
 `
 
-export const ItemCloseSidebar = styled.li<NavbarProps>`
-    left: ${props => `${props.open}%`};
+export const ItemCloseSidebar = styled.li`
     width: 100%;
     height: 80px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
     font: 50px 'Nunito';
+
+    cursor: pointer;
 `
 
 export const ItemList = styled.li`
@@ -71,9 +70,9 @@ export const DivLink = styled.div<DivLinkProps>`
         text-decoration: none;
         transition: 0.2s;
 
-    :hover, :active {
-        transform: scale(1.08);
-    }
+        :hover, :active {
+            transform: scale(1.08);
+        }
     }
 `
 

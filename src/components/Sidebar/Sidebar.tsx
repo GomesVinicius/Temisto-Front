@@ -1,30 +1,40 @@
 import React, { useState } from 'react'
-import { Navbar, List, ItemCloseSidebar, ItemList, DivLink } from './style';
+import { Navbar, List, ItemCloseSidebar, DivLink } from './style';
 import { Link } from 'react-router-dom';
 import sidebarItens from './SidebarItens.json';
 
 const Sidebar = () => {
-    const [open, setOpen] = useState<boolean>(true);
+    const [open, setOpen] = useState<boolean>(false);
     const showSidebar = () => setOpen(!open);
 
-    const path = window.location.pathname;
+    // const [fontWeight ,setFontWeight] = useState<string>('');
+
+    let fontWeight = '';
+
+    function verifyPath(item: string) {
+        let path = window.location.pathname;
+        console.log(path, item);
+        // return path === item ? setFontWeight('700') : setFontWeight('400');
+
+        if (path === item) {
+            fontWeight = '700';
+        } else {
+            fontWeight = '400';
+        }
+    }
 
     return (
         <>
-            <Navbar onClick={showSidebar}>
+            <Navbar open={open ? 0 : -15.5}>
                 <List>
-                    <ItemCloseSidebar open={open ? 0 : -15.5}>
-                        <DivLink>
-                            <Link to='#'> {open ? 'X' : '='} </Link>
-                        </DivLink>
+                    <ItemCloseSidebar onClick={showSidebar} >
+                        <p> {open ? 'X' : '='} </p>
                     </ItemCloseSidebar>
                     {
                         sidebarItens.map(item => (
-                            <>
-                                <DivLink path={path === item.href ? '700' : '400'}>
-                                    <Link to={item.href} key={item.name}>{item.name}</Link>
-                                </DivLink>
-                            </>
+                            <DivLink key={item.name} onClick={() => verifyPath(item.href)} path={fontWeight}>
+                                <Link to={item.href} >{item.name}</Link>
+                            </DivLink>
                         ))
                     }
                 </List>

@@ -7,7 +7,7 @@ const Config = () => {
         <>
             <Container>
                 <h1>Configurações</h1>
-                <ButtonPlus />
+                <ButtonPlus func={() => {}} />
             </Container>
         </>
     )

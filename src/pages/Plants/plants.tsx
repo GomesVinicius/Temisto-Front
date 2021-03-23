@@ -20,7 +20,7 @@ const Plants = () => {
                 <ButtonCustom label="Salvar" typeButton="submit" />
             </ButtonArea>
 
-            <ButtonPlus />
+            <ButtonPlus func={() => {}} />
         </Container>
     )
 }
