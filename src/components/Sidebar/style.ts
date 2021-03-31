@@ -6,27 +6,27 @@ interface NavbarProps {
 
 interface DivLinkProps {
     path?: string;
+    color: string;
 }
 
 export const Navbar = styled.div<NavbarProps>`
-    left: ${props => `${props.open}%`};
+    left: ${props => `${props.open}px`};
     background-color: white;
     display: flex;
     justify-content: start;
     align-items: flex-start;
-    width: 22rem;
+    width: 15.5rem;
     height: 100%;
     position: fixed;
-    transition: 850ms;
-
+    transition: 600ms;
+    
     border-right: 1px solid black;
 `
 
 export const List = styled.ul`
     list-style-type: none;
     width: 100%;
-    margin-right: 1.2rem;
-
+    padding: 0;
     cursor: pointer;
 `
 
@@ -37,12 +37,12 @@ export const ItemCloseSidebar = styled.li`
     justify-content: flex-end;
     align-items: center;
     font: 50px 'Nunito';
-
+    
     cursor: pointer;
 `
 
 export const ItemList = styled.li`
-    color: black;
+    color: white;
     font-size: 2rem;
     background: none;
     display: flex;
@@ -62,13 +62,12 @@ export const DivLink = styled.div<DivLinkProps>`
     margin: 2rem 0;
 
     a {
-        font-weight: ${props => `${props.path}`};
-        color: black;
+        color: ${props => `${props.color}`};
         font-size: 2rem;
         background: none;
         justify-content: center;
         text-decoration: none;
-        transition: 0.2s;
+        transition: color 0.65s, ease-out font-size 0.3s;
 
         :hover, :active {
             transform: scale(1.08);
@@ -77,12 +76,12 @@ export const DivLink = styled.div<DivLinkProps>`
 `
 
 export const MenuBars = styled.a`
-    margin-left: 2rem;
+    /* margin-left: 2rem; */
     font-size: 2rem;
     background: none;
 `
 export const Nav = styled.nav`
-    margin-left: 2rem;
+    /*margin-left: 2rem;*/
     font-size: 2rem;
     background: none;
 `

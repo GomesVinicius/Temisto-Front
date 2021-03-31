@@ -2,14 +2,15 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
     display: flex;
-    width: 70%;
-    height: 80%;
+    width: 100vw;
+    height: 100vh;
 
     flex-direction: column;
 
     padding: 0px 15px 15px 15px;
 
-    background-color: gainsboro;
+    justify-content: center;
+    align-items: center;
 `
 export const InputArea = styled.div`
     display: flex;

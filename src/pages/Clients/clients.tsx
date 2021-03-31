@@ -7,6 +7,7 @@ import { Client } from '../../models/Client';
 
 import { Container } from './style';
 import { Table, TableArea, TableBody, TableColumn, TableHead, TableRow, TableHeadCollumn } from '../../Global/styles';
+import DemoTables from '../DemoTables';
 
 const Clients = () => {
     const [client, setClient] = useState<Client>({} as Client);
@@ -30,39 +31,7 @@ const Clients = () => {
         <>
             <Container transparent={openModal ? 'rgba(0, 0, 0, 0.3)' : ''}>
                 <TableArea>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableHeadCollumn>Cod</TableHeadCollumn>
-                                <TableHeadCollumn>Nome</TableHeadCollumn>
-                                <TableHeadCollumn>Celular</TableHeadCollumn>
-                                <TableHeadCollumn>Celular 2</TableHeadCollumn>
-                                <TableHeadCollumn>Criado</TableHeadCollumn>
-                            </TableRow>
-                        </TableHead>
-
-                        <TableBody>
-                            {clients?.map(client => (
-                                <TableRow key={client.name}>
-                                    <TableColumn>
-                                        {client.id}
-                                    </TableColumn>                                    
-                                    <TableColumn>
-                                        {client.name}
-                                    </TableColumn>
-                                    <TableColumn>
-                                        {client.phone_1}
-                                    </TableColumn>
-                                    <TableColumn>
-                                        {client.phone_2}
-                                    </TableColumn>
-                                    <TableColumn>
-                                        {client.created_at}
-                                    </TableColumn>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                    <DemoTables />
                 </TableArea>
 
                 {openModal ?
