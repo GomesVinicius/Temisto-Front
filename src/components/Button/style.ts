@@ -12,8 +12,9 @@ export const Button = styled.button `
     background-color: #4DFF00;
     color: #fff;
 
-    border: 0px solid;
+    border: 1px solid;
     border-radius: 18px;
+    border-color: #CBCBCB;
 
     outline: 0;
     

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ClientService from '../../callApi/Client';
 import ButtonPlus from '../../components/ButtonPlus/ButtonPlus';
-import ModalCustom from '../../components/Modal/Modal';
+// import ModalCustom from '../../components/Modal/Modal';
 import ModalClient from '../../modalPages/Clients/ModalClients';
 import { Client } from '../../models/Client';
 
@@ -34,8 +34,9 @@ const Clients = () => {
                     <DemoTables />
                 </TableArea>
 
+
                 {openModal ?
-                    <ModalCustom layout={ModalClient} />
+                    <ModalClient/>
                     : <> </>
                 }
 

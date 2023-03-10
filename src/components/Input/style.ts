@@ -8,6 +8,7 @@ export const Input = styled.input `
     border-radius: 18px;
     border: 0px solid;
     padding: 0 1.5rem;
+    margin: 1.5rem;
 
     font-size: 1.3rem;
     background-color: #E1E1E1;
