@@ -10,18 +10,18 @@ import { Table, TableArea, TableBody, TableColumn, TableHead, TableRow, TableHea
 import DemoTables from '../DemoTables';
 
 const Clients = () => {
-    const [client, setClient] = useState<Client>({} as Client);
-    const [clients, setClients] = useState<Client[]>([{}] as Client[]);
+    // const [client, setClient] = useState<Client>({} as Client);
+    // const [clients, setClients] = useState<Client[]>([{}] as Client[]);
 
     const [openModal, setOpenModal] = useState<boolean>(false);
 
-    useEffect(() => {
-        ClientService.show().then((resp) => {
-            setClients(resp.data);
-        }).catch((err) => {
-            console.log(err);
-        });
-    }, []);
+    // useEffect(() => { 
+    //     ClientService.show().then((resp) => {
+    //         setClients(resp.data);
+    //     }).catch((err) => {
+    //         console.log(err);
+    //     });
+    // }, []);
 
     function open() {
         openModal ? setOpenModal(false) : setOpenModal(true);
