@@ -1,12 +1,23 @@
 import React from 'react';
-
 import { useState, useEffect } from 'react';
+
+import Modal from 'react-modal'
+
 import { Table, TableBody, TableColumn, TableHead, TableRow, TableHeadCollumn } from '../../Global/styles';
 import ClientService from '../../callApi/Client';
 import { Client } from '../../models/Client';
 import ModalClientUpdateDelete from '../../modalPages/Clients/ModalClientsUpdate_Delete';
 
+import { Container, Card, InputArea, ButtonArea } from '../../modalPages/Clients/styles';
+import InputCustom from '../../components/Input/InputCustom';
+import ButtonCustom from '../../components/Button/ButtonCustom';
+
 const DemoTables = () => {
+    const [nameClient, setNameClient] = useState<string>('');
+    const [phone_1Client, setPhone_1Client] = useState<string>('');
+    const [phone_2Client, setPhone_2Client] = useState<string>('');
+    const [preferencesClient, setPreferencesClient] = useState<string>('');
+
     const [client, setClient] = useState<Client>({} as Client);
     const [clients, setClients] = useState<Client[]>([{}] as Client[]);
 
@@ -15,11 +26,6 @@ const DemoTables = () => {
     function open() {
         openModal ? setOpenModal(false) : setOpenModal(true);
     }
-    //Possui problema ao clicar em uma linha da tabela na segunda vez para aparecer o modal de edição. É necessário clicar duas vezes
-    //O motivo é de o openModal dessa página não conversa com o openModal da outra
-    useEffect(() => {
-        console.log('useEffect', openModal)
-    }, [openModal])
 
     useEffect(() => { 
         ClientService.show().then((resp) => {
@@ -35,9 +41,25 @@ const DemoTables = () => {
         ClientService.index(id).then((resp) => {
             setClient(resp.data);
 
+            setNameClient(resp.data.name);
+            setPhone_1Client(resp.data.phone_1);
+            setPhone_2Client(resp.data.phone_2);
+            setPreferencesClient(resp.data.preferences);
+
         }).catch((err) => {
             console.log(err);
-        })
+        });
+    }
+
+    function clientAlter(id: number) {
+        const jsonClient = { id: id, name: nameClient, phone_1: phone_1Client, phone_2: phone_2Client, preferences: preferencesClient }
+        // const nJsonClient = (JSON.stringify(jsonClient))
+
+        ClientService.alter(id, jsonClient).then((resp) => {
+            console.log(resp);
+        }).catch((err) => {
+            console.log(err);
+        });
     }
 
     return (
@@ -47,10 +69,31 @@ const DemoTables = () => {
                     <TableHeadCollumn>Cod</TableHeadCollumn>
                     <TableHeadCollumn>Nome</TableHeadCollumn>
                     <TableHeadCollumn>Celular</TableHeadCollumn>
-                    <TableHeadCollumn>Celular 2</TableHeadCollumn>
+                    <TableHeadCollumn>Preferências</TableHeadCollumn>
                     <TableHeadCollumn>Criado</TableHeadCollumn>
                 </TableHead>
+                <Modal isOpen={openModal}>
 
+                <Container>
+                    <Card>
+                        <p onClick={() => {open()}}>FECHAR</p>
+                        <InputArea>
+                            <InputCustom label="Nome" value={nameClient} onChange={(e) => { setNameClient(e.target.value) }}/>
+                            <InputCustom label='Celular' value={phone_1Client} onChange={(e) => { setPhone_1Client(e.target.value) }}></InputCustom>
+                        </InputArea>
+                        <InputArea>
+                            <InputCustom label='Telefone' value={phone_2Client} onChange={(e) => { setPhone_2Client(e.target.value) }}></InputCustom>
+                            <InputCustom label='Preferências' value={preferencesClient} onChange={(e) => { setPreferencesClient(e.target.value) }}></InputCustom>
+                        </InputArea>
+
+                        <ButtonArea>
+                            <ButtonCustom label='Deletar' typeButton='button'></ButtonCustom>
+                            <ButtonCustom label='Editar' typeButton='button' onClick={() => clientAlter(client.id) }></ButtonCustom>
+                        </ButtonArea>
+                    </Card> 
+            </Container>
+
+                </Modal>
                 <TableBody>
                             {clients.map((client, index) => {
                                 return (
@@ -60,23 +103,14 @@ const DemoTables = () => {
                                         <TableColumn> {client.id} </TableColumn>
                                         <TableColumn> {client.name} </TableColumn>
                                         <TableColumn> {client.phone_1} </TableColumn>
-                                        <TableColumn> {client.phone_2} </TableColumn>
+                                        <TableColumn> {client.preferences} </TableColumn>
                                         <TableColumn> {client.created_at} </TableColumn>
                                     </TableRow>
                                 )
                             }) }
                         
                 </TableBody>
-            </Table>
-
-            {openModal ?    
-                    <ModalClientUpdateDelete
-                        client={client}
-                        open={openModal}
-                    />
-                    : <> </>
-                }
-            
+            </Table>           
         </>
     )
 }

@@ -11,7 +11,11 @@ class ClientService {
     }
 
     index(id: number): Promise<AxiosResponse<Client>> {
-        return api.get(`${this.baseURI}/${id}`)
+        return api.get(`${this.baseURI}/${id}`);
+    }
+
+    alter(id: number, client: any): Promise<AxiosResponse<Client>> {
+        return api.put(`${this.baseURI}/${id}`, { client });
     }
 }
 
