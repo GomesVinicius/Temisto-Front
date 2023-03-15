@@ -27,15 +27,20 @@ const DemoTables = () => {
         openModal ? setOpenModal(false) : setOpenModal(true);
     }
 
-    useEffect(() => { 
+    useEffect(() => {
+        clientShow();
+    }, []);
+
+    function clientShow() {
+        console.log('oi')
         ClientService.show().then((resp) => {
             setClients(resp.data);
         }).catch((err) => {
             console.log(err);
         });
-    }, []);
+    }
 
-    function clientIndex(id: number) {
+    function handleClientIndex(id: number) {
         open();
 
         ClientService.index(id).then((resp) => {
@@ -52,14 +57,21 @@ const DemoTables = () => {
     }
 
     function clientAlter(id: number) {
-        const jsonClient = { id: id, name: nameClient, phone_1: phone_1Client, phone_2: phone_2Client, preferences: preferencesClient }
-        // const nJsonClient = (JSON.stringify(jsonClient))
+        const jsonClient = { name: nameClient, phone_1: phone_1Client, phone_2: phone_2Client, preferences: preferencesClient }
 
         ClientService.alter(id, jsonClient).then((resp) => {
             console.log(resp);
+
+            clientShow();
+            alert('Alterado com Sucesso');
+            open();
         }).catch((err) => {
             console.log(err);
         });
+    }
+
+    function handleClientCreate() {
+
     }
 
     return (
@@ -72,8 +84,24 @@ const DemoTables = () => {
                     <TableHeadCollumn>Preferências</TableHeadCollumn>
                     <TableHeadCollumn>Criado</TableHeadCollumn>
                 </TableHead>
-                <Modal isOpen={openModal}>
+                <TableBody>
+                            {clients.map((client, index) => {
+                                return (
+                                    <TableRow key={index}
+                                    onClick={() => handleClientIndex(client.id)}
+                                    >
+                                        <TableColumn> {client.id} </TableColumn>
+                                        <TableColumn> {client.name} </TableColumn>
+                                        <TableColumn> {client.phone_1} </TableColumn>
+                                        <TableColumn> {client.preferences} </TableColumn>
+                                        <TableColumn> {client.created_at} </TableColumn>
+                                    </TableRow>
+                                )
+                            }) }
+                </TableBody>
+            </Table>
 
+            <Modal isOpen={openModal}>
                 <Container>
                     <Card>
                         <p onClick={() => {open()}}>FECHAR</p>
@@ -91,26 +119,8 @@ const DemoTables = () => {
                             <ButtonCustom label='Editar' typeButton='button' onClick={() => clientAlter(client.id) }></ButtonCustom>
                         </ButtonArea>
                     </Card> 
-            </Container>
-
-                </Modal>
-                <TableBody>
-                            {clients.map((client, index) => {
-                                return (
-                                    <TableRow key={index}
-                                    onClick={() => clientIndex(client.id)}
-                                    >
-                                        <TableColumn> {client.id} </TableColumn>
-                                        <TableColumn> {client.name} </TableColumn>
-                                        <TableColumn> {client.phone_1} </TableColumn>
-                                        <TableColumn> {client.preferences} </TableColumn>
-                                        <TableColumn> {client.created_at} </TableColumn>
-                                    </TableRow>
-                                )
-                            }) }
-                        
-                </TableBody>
-            </Table>           
+                </Container>
+            </Modal>   
         </>
     )
 }

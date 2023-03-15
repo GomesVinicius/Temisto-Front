@@ -9,7 +9,7 @@ const ModalClient: React.FC = () => {
             <Container>
                 <Card>
                     <InputArea>
-                        <InputCustom label='Nome'></InputCustom>
+                        <InputCustom label='FFFF'></InputCustom>
                         <InputCustom label='Celular'></InputCustom>
                     </InputArea>
                     <InputArea>

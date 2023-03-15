@@ -30,7 +30,7 @@ const Clients = () => {
     return (
         <>
             <Container transparent={openModal ? 'rgba(0, 0, 0, 0.3)' : ''}>
-                <TableArea>
+                <TableArea>ss
                     <DemoTables />
                 </TableArea>
 
