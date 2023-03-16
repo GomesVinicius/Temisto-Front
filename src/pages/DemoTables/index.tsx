@@ -6,9 +6,8 @@ import Modal from 'react-modal'
 import { Table, TableBody, TableColumn, TableHead, TableRow, TableHeadCollumn } from '../../Global/styles';
 import ClientService from '../../callApi/Client';
 import { Client } from '../../models/Client';
-import ModalClientUpdateDelete from '../../modalPages/Clients/ModalClientsUpdate_Delete';
 
-import { Container, Card, InputArea, ButtonArea } from '../../modalPages/Clients/styles';
+import { ContainerClient, Card, InputArea, ButtonArea } from '../../modalPages/Clients/styles';
 import InputCustom from '../../components/Input/InputCustom';
 import ButtonCustom from '../../components/Button/ButtonCustom';
 
@@ -100,7 +99,7 @@ const DemoTables = () => {
             </Table>
 
             <Modal isOpen={openModal}>
-                <Container>
+                <ContainerClient>
                     <Card>
                         <p onClick={() => {open()}}>FECHAR</p>
                         <InputArea>
@@ -117,7 +116,7 @@ const DemoTables = () => {
                             <ButtonCustom label='Editar' typeButton='button' onClick={() => clientAlter(client.id) }></ButtonCustom>
                         </ButtonArea>
                     </Card> 
-                </Container>
+                </ContainerClient>
             </Modal>   
         </>
     )

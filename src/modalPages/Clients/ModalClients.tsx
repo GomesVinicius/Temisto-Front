@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { Container, Card, InputArea, ButtonArea } from './styles';
+import { ContainerClient, Card, InputArea, ButtonArea } from './styles';
 import InputCustom from '../../components/Input/InputCustom';
 import ButtonCustom from '../../components/Button/ButtonCustom';
 
@@ -26,7 +26,7 @@ const ModalClient: React.FC = () => {
 
     return (
         <>
-            <Container>
+            <ContainerClient>
                 <Card>
                     <InputArea>
                         <InputCustom label='Nome' value={nameClient} onChange={(e) => { setNameClient(e.target.value) }}></InputCustom>
@@ -41,7 +41,7 @@ const ModalClient: React.FC = () => {
                         <ButtonCustom label='Salvar' typeButton='button' onClick={() => handleCreateClient()} ></ButtonCustom>
                     </ButtonArea>
                 </Card>
-            </Container>
+            </ContainerClient>
         </>
     )
 }
