@@ -12,6 +12,8 @@ import { Container, Card, InputArea, ButtonArea } from '../../modalPages/Clients
 import InputCustom from '../../components/Input/InputCustom';
 import ButtonCustom from '../../components/Button/ButtonCustom';
 
+//Passar todo o módulo de criação e update de cliente para um único .tsx
+
 const DemoTables = () => {
     const [nameClient, setNameClient] = useState<string>('');
     const [phone_1Client, setPhone_1Client] = useState<string>('');
@@ -68,10 +70,6 @@ const DemoTables = () => {
         }).catch((err) => {
             console.log(err);
         });
-    }
-
-    function handleClientCreate() {
-
     }
 
     return (
