@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import ClientService from '../../callApi/Client';
-import ButtonPlus from '../../components/ButtonPlus/ButtonPlus';
 import Modal from 'react-modal'
 
-import ModalClient from '../../modalPages/Clients/ModalClients';
-import { Client } from '../../models/Client';
+import ClientService from '../../callApi/Client';
 
-import { Container } from './style';
 import { Table, TableArea, TableBody, TableColumn, TableHead, TableRow, TableHeadCollumn } from '../../Global/styles';
 import { ContainerClient, Card, InputArea, ButtonArea } from '../../modalPages/Clients/styles';
-import InputCustom from '../../components/Input/InputCustom';
+import { Container } from './style';
+
+import { Client } from '../../models/Client';
+
+import ButtonPlus from '../../components/ButtonPlus/ButtonPlus';
 import ButtonCustom from '../../components/Button/ButtonCustom';
-// import DemoTables from '../DemoTables';
+import InputCustom from '../../components/Input/InputCustom';
 
 const Clients = () => {
     const [nameClient, setNameClient] = useState<string>('');
@@ -26,6 +26,7 @@ const Clients = () => {
     const [openModalCreate, setOpenModalCreate] = useState<boolean>(false);
 
     function openCreate() {
+        cleanStates();
         openModalCreate ? setOpenModalCreate(false) : setOpenModalCreate(true);
     }
 
@@ -37,8 +38,14 @@ const Clients = () => {
         handleClientShow();
     }, []);
 
+    function cleanStates() {
+        setNameClient('');
+        setPhone_1Client('');
+        setPhone_2Client('');
+        setPreferencesClient('');
+    }
+
     function handleClientShow() {
-        console.log('oi')
         ClientService.show().then((resp) => {
             setClients(resp.data);
         }).catch((err) => {
@@ -69,18 +76,34 @@ const Clients = () => {
             handleClientShow();
             alert('Alterado com Sucesso');
             openEditDelete();
+            cleanStates();
         }).catch((err) => {
             console.log(err);
         });
     }
 
-    function handleCreateClient() {
-        const jsonClient = { name: nameClient, phone_1: phone_1Client, phone_2: phone_2Client, preferences: preferencesClient }
+    function handleClientCreate() {
+        cleanStates();
+
+        const jsonClient = { name: nameClient, phone_1: phone_1Client, phone_2: phone_2Client, preferences: preferencesClient };
+
         ClientService.store(jsonClient).then((resp) => {
             handleClientShow();
             console.log(resp);
             alert('Criado com sucesso');
-            openCreate()
+            openCreate();
+            cleanStates();
+        }).catch((err) => {
+            console.error(err);
+        });
+    }
+
+    function handleClientDelete(id: number) {
+        ClientService.delete(id).then((resp) => {
+            console.log(resp);
+            alert('Deletado com sucesso');
+            handleClientShow();
+            openEditDelete();
         }).catch((err) => {
             console.error(err);
         });
@@ -88,34 +111,37 @@ const Clients = () => {
 
     return (
         <>
-            <Container transparent={openModalEditDelete ? 'rgba(0, 0, 0, 0.3)' : ''}>
-                <TableArea>ss
+            <Container transparent={openModalEditDelete || openModalCreate ? 'rgba(0, 0, 0, 0.3)' : ''}>
+                <TableArea>
                     <Table>
-                    <TableHead>
-                        <TableHeadCollumn>Cod</TableHeadCollumn>
-                        <TableHeadCollumn>Nome</TableHeadCollumn>
-                        <TableHeadCollumn>Celular</TableHeadCollumn>
-                        <TableHeadCollumn>Preferências</TableHeadCollumn>
-                        <TableHeadCollumn>Criado</TableHeadCollumn>
-                    </TableHead>
-                    <TableBody>
-                                {clients.map((client, index) => {
-                                    return (
-                                        <TableRow key={index}
+                        <TableHead>
+                            <TableHeadCollumn>Cod</TableHeadCollumn>
+                            <TableHeadCollumn>Nome</TableHeadCollumn>
+                            <TableHeadCollumn>Celular</TableHeadCollumn>
+                            <TableHeadCollumn>Preferências</TableHeadCollumn>
+                            <TableHeadCollumn>Criado</TableHeadCollumn>
+                        </TableHead>
+                        <TableBody>
+                            {clients.map((client, index) => {
+                                return (
+                                    <TableRow key={index}
                                         onClick={() => handleClientIndex(client.id)}
-                                        >
-                                            <TableColumn> {client.id} </TableColumn>
-                                            <TableColumn> {client.name} </TableColumn>
-                                            <TableColumn> {client.phone_1} </TableColumn>
-                                            <TableColumn> {client.preferences} </TableColumn>
-                                            <TableColumn> {client.created_at} </TableColumn>
-                                        </TableRow>
-                                    )
-                                }) }
-                    </TableBody>
-                </Table>
+                                    >
+                                        <TableColumn> {client.id} </TableColumn>
+                                        <TableColumn> {client.name} </TableColumn>
+                                        <TableColumn> {client.phone_1} </TableColumn>
+                                        <TableColumn> {client.preferences} </TableColumn>
+                                        <TableColumn> {client.created_at} </TableColumn>
+                                    </TableRow>
+                                )
+                            }) }
+                        </TableBody>
+                    </Table>
+                </TableArea>
 
-                <Modal isOpen={openModalEditDelete}>
+                <Modal isOpen={openModalEditDelete}
+                style={{ content: {background: 'none', border: '0px'} }}
+                  >
                     <ContainerClient>
                         <Card>
                             <p onClick={() => {openEditDelete()}}>FECHAR</p>
@@ -129,14 +155,12 @@ const Clients = () => {
                             </InputArea>
 
                             <ButtonArea>
-                                <ButtonCustom label='Deletar' typeButton='button'></ButtonCustom>
+                                <ButtonCustom label='Deletar' typeButton='button' onClick={() => handleClientDelete(client.id) }></ButtonCustom>
                                 <ButtonCustom label='Editar' typeButton='button' onClick={() => handleClientUpdate(client.id) }></ButtonCustom>
                             </ButtonArea>
                         </Card> 
                     </ContainerClient>
                 </Modal>   
-                </TableArea>
-
 
                 {openModalCreate ?
                     <ContainerClient>
@@ -151,7 +175,7 @@ const Clients = () => {
                             </InputArea>
 
                             <ButtonArea>
-                                <ButtonCustom label='Salvar' typeButton='button' onClick={() => handleCreateClient()} ></ButtonCustom>
+                                <ButtonCustom label='Salvar' typeButton='button' onClick={() => handleClientCreate()} ></ButtonCustom>
                             </ButtonArea>
                         </Card>
                     </ContainerClient>

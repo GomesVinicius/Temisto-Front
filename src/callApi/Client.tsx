@@ -1,5 +1,4 @@
 import { AxiosResponse } from 'axios';
-import React from 'react';
 import { Client } from '../models/Client';
 import api from '../services/api';
 
@@ -20,6 +19,10 @@ class ClientService {
 
     store(client: any): Promise<AxiosResponse<Client>> {
         return api.post(`${this.baseURI}`, client);
+    }
+
+    delete(id: number): Promise<AxiosResponse<Client>> {
+        return api.delete(`${this.baseURI}/${id}`);
     }
 }
 

@@ -6,8 +6,6 @@ import ButtonCustom from '../../components/Button/ButtonCustom';
 
 import ClientService from '../../callApi/Client';
 
-//Passar todo o módulo de criação e update de cliente para um único .tsx
-
 const ModalClient: React.FC = () => {
     const [nameClient, setNameClient] = useState<string>('');
     const [phone_1Client, setPhone_1Client] = useState<string>('');
