@@ -5,8 +5,8 @@ import api from '../services/api';
 class ClientService {
     private baseURI: string = 'client';
 
-    show(): Promise<AxiosResponse<Client[]>> {
-        return api.get(`${this.baseURI}`);
+    show(query?: string): Promise<AxiosResponse<Client[]>> {
+        return api.get(`${this.baseURI}`, { params: { 'search': query }});
     }
 
     index(id: number): Promise<AxiosResponse<Client>> {

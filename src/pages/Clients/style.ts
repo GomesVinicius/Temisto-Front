@@ -11,6 +11,8 @@ export const Container = styled.div<ContainerProps> `
     justify-content: center;
     align-items: center;
 
+    flex-direction: column;
+
     background-color: ${props => `${props.transparent}`};
 
     transition: 0.2s;

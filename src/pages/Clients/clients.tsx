@@ -2,16 +2,19 @@ import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal'
 
 import ClientService from '../../callApi/Client';
+import PlantService from '../../callApi/Plant';
 
 import { Table, TableArea, TableBody, TableColumn, TableHead, TableRow, TableHeadCollumn } from '../../Global/styles';
 import { ContainerClient, Card, InputArea, ButtonArea } from '../../modalPages/Clients/styles';
 import { Container } from './style';
 
 import { Client } from '../../models/Client';
+import { Plant } from '../../models/Plant';
 
 import ButtonPlus from '../../components/ButtonPlus/ButtonPlus';
 import ButtonCustom from '../../components/Button/ButtonCustom';
 import InputCustom from '../../components/Input/InputCustom';
+import { platform } from 'os';
 
 const Clients = () => {
     const [nameClient, setNameClient] = useState<string>('');
@@ -25,6 +28,15 @@ const Clients = () => {
     const [openModalEditDelete, setOpenModalEditDelete] = useState<boolean>(false);
     const [openModalCreate, setOpenModalCreate] = useState<boolean>(false);
 
+    const [search, setSearch] = useState<string>('');
+
+    const [plants, setPlants] = useState<Plant[]>([{}] as Plant[]);
+
+    function handleSearchClient(source: string) {
+        handleClientShow(source)
+        console.log(nameClient)
+    }
+
     function openCreate() {
         cleanStates();
         openModalCreate ? setOpenModalCreate(false) : setOpenModalCreate(true);
@@ -36,6 +48,7 @@ const Clients = () => {
 
     useEffect(() => {
         handleClientShow();
+        handlePlantShow();
     }, []);
 
     function cleanStates() {
@@ -43,10 +56,22 @@ const Clients = () => {
         setPhone_1Client('');
         setPhone_2Client('');
         setPreferencesClient('');
+
+        setSearch('');
     }
 
-    function handleClientShow() {
-        ClientService.show().then((resp) => {
+    function handlePlantShow() {
+        PlantService.show().then((resp) => {
+            setPlants(resp.data);
+
+            console.log(resp.data);
+        }).catch((err) => {
+            console.error(err);
+        })
+    }
+
+    function handleClientShow(query?: string) {
+        ClientService.show(query).then((resp) => {
             setClients(resp.data);
         }).catch((err) => {
             console.log(err);
@@ -104,6 +129,7 @@ const Clients = () => {
             alert('Deletado com sucesso');
             handleClientShow();
             openEditDelete();
+            cleanStates();
         }).catch((err) => {
             console.error(err);
         });
@@ -112,6 +138,11 @@ const Clients = () => {
     return (
         <>
             <Container transparent={openModalEditDelete || openModalCreate ? 'rgba(0, 0, 0, 0.3)' : ''}>
+            <InputCustom label='Pesquisar'
+                value={search}
+                onChange={(e) => { setSearch(e.target.value) }}
+                onKeyUp={() => {handleSearchClient(search)}}
+            ></InputCustom>
                 <TableArea>
                     <Table>
                         <TableHead>
@@ -162,9 +193,12 @@ const Clients = () => {
                     </ContainerClient>
                 </Modal>   
 
-                {openModalCreate ?
+                <Modal isOpen={openModalCreate}
+                style={{ content: {background: 'none', border: '0px'} }}
+                    >
                     <ContainerClient>
                         <Card>
+                        <p onClick={() => {openCreate()}}>FECHAR</p>
                             <InputArea>
                                 <InputCustom label='Nome' value={nameClient} onChange={(e) => { setNameClient(e.target.value) }}></InputCustom>
                                 <InputCustom label='Celular' value={phone_1Client} onChange={(e) => { setPhone_1Client(e.target.value) }}></InputCustom>
@@ -172,6 +206,11 @@ const Clients = () => {
                             <InputArea>
                                 <InputCustom label='Telefone' value={phone_2Client} onChange={(e) => { setPhone_2Client(e.target.value) }} ></InputCustom>
                                 <InputCustom label='Preferências' value={preferencesClient} onChange={(e) => { setPreferencesClient(e.target.value) }} ></InputCustom>
+                                <select name='plants'>
+                                    {plants.map(plant => (
+                                        <option value={plant.name} key={plant.id}>{plant.name}</option>
+                                    ))}
+                                </select>
                             </InputArea>
 
                             <ButtonArea>
@@ -179,8 +218,7 @@ const Clients = () => {
                             </ButtonArea>
                         </Card>
                     </ContainerClient>
-                    : <> </>
-                }
+                </Modal>
 
                 <ButtonPlus func={() => openCreate()} />
             </Container>

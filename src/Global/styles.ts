@@ -28,6 +28,8 @@ export const Table = styled.table`
     width: 95%;
     height: 95%;
 
+    overflow: ;
+
     font-family: 'Roboto';
 
     box-shadow: 8px 8px 8px #dbdbdb;
