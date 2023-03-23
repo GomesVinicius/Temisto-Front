@@ -14,7 +14,12 @@ import { Plant } from '../../models/Plant';
 import ButtonPlus from '../../components/ButtonPlus/ButtonPlus';
 import ButtonCustom from '../../components/Button/ButtonCustom';
 import InputCustom from '../../components/Input/InputCustom';
-import { platform } from 'os';
+import Select from 'react-select'
+
+export interface PlantOption {
+    value: any,
+    label: string
+}
 
 const Clients = () => {
     const [nameClient, setNameClient] = useState<string>('');
@@ -31,6 +36,9 @@ const Clients = () => {
     const [search, setSearch] = useState<string>('');
 
     const [plants, setPlants] = useState<Plant[]>([{}] as Plant[]);
+    const [plantsOption, setPlantsOption] = useState<PlantOption[]>([{}] as PlantOption[]);
+
+    const [value, setValue] = React.useState<readonly PlantOption[]>([]);
 
     function handleSearchClient(source: string) {
         handleClientShow(source)
@@ -39,6 +47,7 @@ const Clients = () => {
 
     function openCreate() {
         cleanStates();
+        handlePlantShow();
         openModalCreate ? setOpenModalCreate(false) : setOpenModalCreate(true);
     }
 
@@ -64,10 +73,26 @@ const Clients = () => {
         PlantService.show().then((resp) => {
             setPlants(resp.data);
 
-            console.log(resp.data);
+            let auxPlantsOption: PlantOption[] = [{label: '', value: 1}]
+            
+            plants.map(plant => {
+                auxPlantsOption.push({label: plant.name, value: plant.id})
+            })
+            auxPlantsOption.shift();
+            console.log('oi', auxPlantsOption);
+            
+            setPlantsOption(auxPlantsOption);
+
         }).catch((err) => {
             console.error(err);
         })
+
+    // const options = [
+    //     { value: 'chocolate', label: 'Chocolate' },
+    //     { value: 'strawberry', label: 'Strawberry' },
+    //     { value: 'vanilla', label: 'Vanilla' }
+    //   ]
+
     }
 
     function handleClientShow(query?: string) {
@@ -205,12 +230,9 @@ const Clients = () => {
                             </InputArea>
                             <InputArea>
                                 <InputCustom label='Telefone' value={phone_2Client} onChange={(e) => { setPhone_2Client(e.target.value) }} ></InputCustom>
-                                <InputCustom label='Preferências' value={preferencesClient} onChange={(e) => { setPreferencesClient(e.target.value) }} ></InputCustom>
-                                <select name='plants'>
-                                    {plants.map(plant => (
-                                        <option value={plant.name} key={plant.id}>{plant.name}</option>
-                                    ))}
-                                </select>
+                                {/* <InputCustom label='Preferências' value={preferencesClient} onChange={(e) => { setPreferencesClient(e.target.value) }} ></InputCustom> */}
+                                <Select options={plantsOption} isMulti onChange={(newValue) => {setValue(newValue)}} />
+                                <button onClick={() => {console.log(value)}}>aaaa</button>
                             </InputArea>
 
                             <ButtonArea>
