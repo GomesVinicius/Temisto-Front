@@ -15,6 +15,8 @@ import ButtonPlus from '../../components/ButtonPlus/ButtonPlus';
 import ButtonCustom from '../../components/Button/ButtonCustom';
 import InputCustom from '../../components/Input/InputCustom';
 import Select from 'react-select'
+import { ClientPreference } from '../../models/ClientsPreferences';
+import ClientPreferences from '../../callApi/ClientPreferences';
 
 export interface PlantOptions {
     value: any,
@@ -139,8 +141,20 @@ const Clients = () => {
 
         ClientService.store(jsonClient).then((resp) => {
             handleClientShow();
-            console.log(resp);
+            console.log(resp.data.client_id_created);
+            
+            const idPlants: ClientPreference[] = plantSelected.map(plant => {
+                return { id_client: resp.data.client_id_created, id_plant: plant.value }
+            })
+
+            ClientPreferences.store(idPlants).then((resp) => {
+                console.log(resp.data)
+            }).catch((err) => {
+                console.error(err);
+            });
+
             alert('Criado com sucesso');
+
             openCreate();
             cleanStates();
         }).catch((err) => {
@@ -230,7 +244,7 @@ const Clients = () => {
                             </InputArea>
                             <InputArea>
                                 <InputCustom label='Telefone' value={phone_2Client} onChange={(e) => { setPhone_2Client(e.target.value) }} ></InputCustom>
-                                {/* <InputCustom label='Preferências' value={preferencesClient} onChange={(e) => { setPreferencesClient(e.target.value) }} ></InputCustom> */}
+                                <InputCustom label='Preferências' value={preferencesClient} onChange={(e) => { setPreferencesClient(e.target.value) }} ></InputCustom>
                                 <Select options={plantsOption} isMulti onChange={(newValue) => { setPlantSelected(newValue) }} />
                                 <button onClick={() => {console.log(plantSelected)}}>aaaa</button>
                             </InputArea>

@@ -31,7 +31,7 @@ const Plants = () => {
         openEditDelete();
         PlantService.show(id).then((resp) => {
             setPlant(resp.data[0]);
-            console.log('oi', resp.data)
+
             setNamePlant(resp.data[0].name);
             setAmountPlant(resp.data[0].amount);
             setHeightPlant(resp.data[0].height);

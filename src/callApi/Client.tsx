@@ -2,6 +2,11 @@ import { AxiosResponse } from 'axios';
 import { Client } from '../models/Client';
 import api from '../services/api';
 
+interface ClientStored {
+    client_id_created: number,
+    msg: string
+}
+
 class ClientService {
     private baseURI: string = 'client';
 
@@ -17,7 +22,7 @@ class ClientService {
         return api.put(`${this.baseURI}/${id}`, client);
     }
 
-    store(client: any): Promise<AxiosResponse<Client>> {
+    store(client: any): Promise<AxiosResponse<ClientStored>> {
         return api.post(`${this.baseURI}`, client);
     }
 
