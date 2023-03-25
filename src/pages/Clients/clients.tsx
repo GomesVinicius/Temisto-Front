@@ -16,7 +16,7 @@ import ButtonCustom from '../../components/Button/ButtonCustom';
 import InputCustom from '../../components/Input/InputCustom';
 import Select from 'react-select'
 
-export interface PlantOption {
+export interface PlantOptions {
     value: any,
     label: string
 }
@@ -36,9 +36,9 @@ const Clients = () => {
     const [search, setSearch] = useState<string>('');
 
     const [plants, setPlants] = useState<Plant[]>([{}] as Plant[]);
-    const [plantsOption, setPlantsOption] = useState<PlantOption[]>([{}] as PlantOption[]);
+    const [plantsOption, setPlantsOption] = useState<PlantOptions[]>([{}] as PlantOptions[]);
 
-    const [value, setValue] = React.useState<readonly PlantOption[]>([]);
+    const [plantSelected, setPlantSelected] = React.useState<readonly PlantOptions[]>([]);
 
     function handleSearchClient(source: string) {
         handleClientShow(source)
@@ -47,7 +47,7 @@ const Clients = () => {
 
     function openCreate() {
         cleanStates();
-        handlePlantShow();
+        handlePlantIndex();
         openModalCreate ? setOpenModalCreate(false) : setOpenModalCreate(true);
     }
 
@@ -57,7 +57,7 @@ const Clients = () => {
 
     useEffect(() => {
         handleClientShow();
-        handlePlantShow();
+        handlePlantIndex();
     }, []);
 
     function cleanStates() {
@@ -69,11 +69,11 @@ const Clients = () => {
         setSearch('');
     }
 
-    function handlePlantShow() {
-        PlantService.show().then((resp) => {
+    function handlePlantIndex() {
+        PlantService.index().then((resp) => {
             setPlants(resp.data);
 
-            let auxPlantsOption: PlantOption[] = [{label: '', value: 1}]
+            let auxPlantsOption: PlantOptions[] = [{label: '', value: 1}]
             
             plants.map(plant => {
                 auxPlantsOption.push({label: plant.name, value: plant.id})
@@ -231,8 +231,8 @@ const Clients = () => {
                             <InputArea>
                                 <InputCustom label='Telefone' value={phone_2Client} onChange={(e) => { setPhone_2Client(e.target.value) }} ></InputCustom>
                                 {/* <InputCustom label='Preferências' value={preferencesClient} onChange={(e) => { setPreferencesClient(e.target.value) }} ></InputCustom> */}
-                                <Select options={plantsOption} isMulti onChange={(newValue) => {setValue(newValue)}} />
-                                <button onClick={() => {console.log(value)}}>aaaa</button>
+                                <Select options={plantsOption} isMulti onChange={(newValue) => { setPlantSelected(newValue) }} />
+                                <button onClick={() => {console.log(plantSelected)}}>aaaa</button>
                             </InputArea>
 
                             <ButtonArea>

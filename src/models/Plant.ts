@@ -1,9 +1,9 @@
 export interface Plant {
-    id?: number;
+    id: number;
     name: string;
     amount: number;
     price_sell: number;
-    priceb_buy: number;
+    price_buy: number;
     height: number;
     created_at?: string;
     updated_at?: string;
