@@ -165,9 +165,9 @@ const Clients = () => {
     function handleClientDelete(id: number) {
         ClientService.delete(id).then((resp) => {
             console.log(resp);
-            alert('Deletado com sucesso');
-            handleClientShow();
-            openEditDelete();
+            // alert('Deletado com sucesso');
+            // handleClientShow();
+            // openEditDelete();
             cleanStates();
         }).catch((err) => {
             console.error(err);
@@ -210,11 +210,19 @@ const Clients = () => {
                 </TableArea>
 
                 <Modal isOpen={openModalEditDelete}
-                style={{ content: {background: 'none', border: '0px'} }}
+                    style={{ content: {background: 'none', border: '0px'} }}
+                    // shouldCloseOnOverlayClick={true}
+                    shouldCloseOnEsc
+                    onRequestClose={() => {
+                        cleanStates();
+                        setOpenModalEditDelete(false);
+                    }}
                   >
                     <ContainerClient>
                         <Card>
-                            <p onClick={() => {openEditDelete()}}>FECHAR</p>
+                            <p onClick={() => {openEditDelete()}}>
+                                <img src={require('../../icons/close-icon.png')}></img>
+                            </p>
                             <InputArea>
                                 <InputCustom label="Nome" value={nameClient} onChange={(e) => { setNameClient(e.target.value) }}/>
                                 <InputCustom label='Celular' value={phone_1Client} onChange={(e) => { setPhone_1Client(e.target.value) }}></InputCustom>
@@ -225,15 +233,20 @@ const Clients = () => {
                             </InputArea>
 
                             <ButtonArea>
-                                <ButtonCustom label='Deletar' typeButton='button' onClick={() => handleClientDelete(client.id) }></ButtonCustom>
-                                <ButtonCustom label='Editar' typeButton='button' onClick={() => handleClientUpdate(client.id) }></ButtonCustom>
+                                <ButtonCustom buttonEffect='delete' label='Deletar' typeButton='button' onClick={() => handleClientDelete(client.id) } ></ButtonCustom>
+                                <ButtonCustom buttonEffect='edit' label='Editar' typeButton='button' onClick={() => handleClientUpdate(client.id) }></ButtonCustom>
                             </ButtonArea>
                         </Card> 
                     </ContainerClient>
                 </Modal>   
 
                 <Modal isOpen={openModalCreate}
-                style={{ content: {background: 'none', border: '0px'} }}
+                    style={{ content: {background: 'none', border: '0px'} }}
+                    shouldCloseOnEsc
+                    onRequestClose={() => {
+                        cleanStates();
+                        setOpenModalCreate(false);
+                    }}
                     >
                     <ContainerClient>
                         <Card>
@@ -250,7 +263,7 @@ const Clients = () => {
                             </InputArea>
 
                             <ButtonArea>
-                                <ButtonCustom label='Salvar' typeButton='button' onClick={() => handleClientCreate()} ></ButtonCustom>
+                                <ButtonCustom buttonEffect='delete' label='Salvar' typeButton='button' onClick={() => handleClientCreate()} ></ButtonCustom>
                             </ButtonArea>
                         </Card>
                     </ContainerClient>

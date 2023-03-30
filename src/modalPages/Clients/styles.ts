@@ -40,4 +40,9 @@ export const ButtonArea = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    
+
+    button:nth-child(2) {
+        margin-left: 18px;
+    }
 `

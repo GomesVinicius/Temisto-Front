@@ -4,12 +4,13 @@ import { Button } from './style';
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     label: string;
     typeButton: "submit" | "button";
+    buttonEffect?: 'delete' | 'edit' | 'normal'
 }
 
-const ButtonCustom: React.FC<ButtonProps> = ({ label, typeButton, ...rest }) => {
+const ButtonCustom: React.FC<ButtonProps> = ({ label, typeButton, buttonEffect, ...rest }) => {
     return (
         <>
-            <Button type={typeButton} {...rest}>
+            <Button type={typeButton} typeButt={buttonEffect || 'normal' } {...rest}>
                 {label}
             </Button>
         </>
