@@ -15,8 +15,10 @@ import ButtonPlus from '../../components/ButtonPlus/ButtonPlus';
 import ButtonCustom from '../../components/Button/ButtonCustom';
 import InputCustom from '../../components/Input/InputCustom';
 import Select from 'react-select'
-import { ClientPreference } from '../../models/ClientsPreferences';
 import ClientPreferences from '../../callApi/ClientPreferences';
+import { ClientPreference } from '../../models/ClientsPreferences';
+import { ClientWithPreferences } from '../../models/ClientsWithPreferences';
+import { Preferences } from '../../models/Preferences';
 
 export interface PlantOptions {
     value: any,
@@ -27,10 +29,9 @@ const Clients = () => {
     const [nameClient, setNameClient] = useState<string>('');
     const [phone_1Client, setPhone_1Client] = useState<string>('');
     const [phone_2Client, setPhone_2Client] = useState<string>('');
-    const [preferencesClient, setPreferencesClient] = useState<string>('');
 
-    const [client, setClient] = useState<Client>({} as Client);
-    const [clients, setClients] = useState<Client[]>([{}] as Client[]);
+    const [client, setClient] = useState<ClientWithPreferences>({} as ClientWithPreferences);
+    const [clients, setClients] = useState<ClientWithPreferences[]>([]);
 
     const [openModalEditDelete, setOpenModalEditDelete] = useState<boolean>(false);
     const [openModalCreate, setOpenModalCreate] = useState<boolean>(false);
@@ -41,6 +42,8 @@ const Clients = () => {
     const [plantsOption, setPlantsOption] = useState<PlantOptions[]>([{}] as PlantOptions[]);
 
     const [plantSelected, setPlantSelected] = React.useState<readonly PlantOptions[]>([]);
+    const [plantPreferencesClient, setPlantPreferencesClient] = useState<readonly PlantOptions[]>([]);
+
 
     function handleSearchClient(source: string) {
         handleClientShow(source)
@@ -57,16 +60,31 @@ const Clients = () => {
         openModalEditDelete ? setOpenModalEditDelete(false) : setOpenModalEditDelete(true);
     }
 
+    function handleClientShow(query?: string) {
+        console.log('oi')
+        ClientService.show(query).then((resp) => {
+            setClients(resp.data);
+            
+            resp.data.map(client => {
+                client.pref.map(pref => {
+                    console.log(pref.name)
+                })
+            })
+
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
     useEffect(() => {
-        handleClientShow();
-        handlePlantIndex();
+        handleClientShow()
+        // handlePlantIndex();
     }, []);
 
     function cleanStates() {
         setNameClient('');
         setPhone_1Client('');
         setPhone_2Client('');
-        setPreferencesClient('');
 
         setSearch('');
     }
@@ -74,61 +92,90 @@ const Clients = () => {
     function handlePlantIndex() {
         PlantService.index().then((resp) => {
             setPlants(resp.data);
-
+            
             let auxPlantsOption: PlantOptions[] = [{label: '', value: 1}]
             
-            plants.map(plant => {
-                auxPlantsOption.push({label: plant.name, value: plant.id})
+            resp.data.map(plant => {
+                auxPlantsOption.push({label: plant.name , value: plant.id})
             })
-            auxPlantsOption.shift();
-            console.log('oi', auxPlantsOption);
-            
-            setPlantsOption(auxPlantsOption);
 
+            // plants.map(plant => {
+            //     auxPlantsOption.push({label: plant.name, value: plant.id})
+            // }) PorQUE Não funciona usando o setPlant??????????????????????
+
+            auxPlantsOption.shift();
+            
+            setPlantsOption(auxPlantsOption);          
         }).catch((err) => {
             console.error(err);
         })
-
-    // const options = [
-    //     { value: 'chocolate', label: 'Chocolate' },
-    //     { value: 'strawberry', label: 'Strawberry' },
-    //     { value: 'vanilla', label: 'Vanilla' }
-    //   ]
-
-    }
-
-    function handleClientShow(query?: string) {
-        ClientService.show(query).then((resp) => {
-            setClients(resp.data);
-        }).catch((err) => {
-            console.log(err);
-        });
     }
 
     function handleClientIndex(id: number) {
         openEditDelete();
+        handlePlantIndex()
 
         ClientService.index(id).then((resp) => {
             setClient(resp.data);
 
-            setNameClient(resp.data.name);
-            setPhone_1Client(resp.data.phone_1);
-            setPhone_2Client(resp.data.phone_2);
-            setPreferencesClient(resp.data.preferences);
+            setNameClient(resp.data.client.name);
+            setPhone_1Client(resp.data.client.phone_1);
+            setPhone_2Client(resp.data.client.phone_2);
+            // setPreferencesClient(resp.data.preferences);
+
+            let auxPlantsOption: PlantOptions[] = [{label: '', value: 1}]
+            
+            resp.data.pref.map(plant => {
+                auxPlantsOption.push({label: plant.name , value: plant.id_plant})
+            })
+
+            auxPlantsOption.shift();
+            
+            setPlantPreferencesClient(auxPlantsOption);
 
         }).catch((err) => {
             console.log(err);
         });
+
+        console.log(client)
     }
 
     function handleClientUpdate(id: number) {
-        const jsonClient = { name: nameClient, phone_1: phone_1Client, phone_2: phone_2Client, preferences: preferencesClient }
+        let preferences: [{ id_client: number, id_plant: number }] = [{ id_client: 0, id_plant: 0 }]
+
+        plantPreferencesClient.map(pref => {
+            preferences.push({ id_client: id, id_plant: pref.value })
+        })
+
+        preferences.shift()
+        console.log(preferences)
+
+        let jsonClient: { client:
+            { name: string, phone_1: string, phone_2: string },
+        pref:
+            [{ id_client: number, id_plant: number }]
+        }
+
+        jsonClient = { client: { name: nameClient, phone_1: phone_1Client, phone_2: phone_2Client},
+                        pref: preferences }
+
+        // const jsonClient: ClientWithPreferences = { client:
+        //     { id: id, name: nameClient, phone_1: phone_1Client, phone_2: phone_2Client },
+        // pref:
+        //     [{ id_client: 1, id_plant: 1, name: '' }] }
 
         ClientService.alter(id, jsonClient).then((resp) => {
             handleClientShow();
             alert('Alterado com Sucesso');
             openEditDelete();
             cleanStates();
+
+            // const idPlants: ClientPreference[] = plantSelected.map(plant => {
+            //     return { id_client: resp.data.client_id_created, id_plant: plant.value }
+            // })
+
+            console.log('aq', jsonClient)
+
         }).catch((err) => {
             console.log(err);
         });
@@ -137,23 +184,25 @@ const Clients = () => {
     function handleClientCreate() {
         cleanStates();
 
-        const jsonClient = { name: nameClient, phone_1: phone_1Client, phone_2: phone_2Client, preferences: preferencesClient };
+        const jsonClient = { name: nameClient, phone_1: phone_1Client, phone_2: phone_2Client };
 
-        ClientService.store(jsonClient).then((resp) => {
-            handleClientShow();
+        ClientService.store(jsonClient).then((resp) => { 
             console.log(resp.data.client_id_created);
             
             const idPlants: ClientPreference[] = plantSelected.map(plant => {
                 return { id_client: resp.data.client_id_created, id_plant: plant.value }
             })
-
+            
             ClientPreferences.store(idPlants).then((resp) => {
                 console.log(resp.data)
             }).catch((err) => {
                 console.error(err);
             });
-
+            
             alert('Criado com sucesso');
+            
+            handleClientShow();
+            console.log(resp.data.client_id_created);
 
             openCreate();
             cleanStates();
@@ -165,9 +214,9 @@ const Clients = () => {
     function handleClientDelete(id: number) {
         ClientService.delete(id).then((resp) => {
             console.log(resp);
-            // alert('Deletado com sucesso');
-            // handleClientShow();
-            // openEditDelete();
+            alert('Deletado com sucesso');
+            handleClientShow();
+            openEditDelete();
             cleanStates();
         }).catch((err) => {
             console.error(err);
@@ -195,13 +244,22 @@ const Clients = () => {
                             {clients.map((client, index) => {
                                 return (
                                     <TableRow key={index}
-                                        onClick={() => handleClientIndex(client.id)}
+                                        onDoubleClick={() => handleClientIndex(client.client.id)}
+                                        // onClick={() => handleClientIndex(client.client.id)}
                                     >
-                                        <TableColumn> {client.id} </TableColumn>
-                                        <TableColumn> {client.name} </TableColumn>
-                                        <TableColumn> {client.phone_1} </TableColumn>
-                                        <TableColumn> {client.preferences} </TableColumn>
-                                        <TableColumn> {client.created_at} </TableColumn>
+                                        <TableColumn> {client.client.id} </TableColumn>
+                                        <TableColumn> {client.client.name} </TableColumn>
+                                        <TableColumn> {client.client.phone_1} </TableColumn>
+                                        <TableColumn>
+                                            { 
+                                            client.pref[0] != null ? 
+                                            client.pref.map((pref, index) => {
+                                                    console.log('oi', client.pref.keys())
+                                                    return `${pref.name} `
+                                                }) : ''
+                                            }
+                                        </TableColumn>
+                                        <TableColumn> {client.client.created_at} </TableColumn>
                                     </TableRow>
                                 )
                             }) }
@@ -229,12 +287,12 @@ const Clients = () => {
                             </InputArea>
                             <InputArea>
                                 <InputCustom label='Telefone' value={phone_2Client} onChange={(e) => { setPhone_2Client(e.target.value) }}></InputCustom>
-                                <InputCustom label='Preferências' value={preferencesClient} onChange={(e) => { setPreferencesClient(e.target.value) }}></InputCustom>
+                                <Select options={plantsOption} value={plantPreferencesClient} isMulti onChange={(newValue) => { setPlantPreferencesClient(newValue) }}  />
                             </InputArea>
 
                             <ButtonArea>
-                                <ButtonCustom buttonEffect='delete' label='Deletar' typeButton='button' onClick={() => handleClientDelete(client.id) } ></ButtonCustom>
-                                <ButtonCustom buttonEffect='edit' label='Editar' typeButton='button' onClick={() => handleClientUpdate(client.id) }></ButtonCustom>
+                                <ButtonCustom buttonEffect='delete' label='Deletar' typeButton='button' onClick={() => handleClientDelete(client.client.id) } ></ButtonCustom>
+                                <ButtonCustom buttonEffect='edit' label='Editar' typeButton='button' onClick={() => handleClientUpdate(client.client.id) }></ButtonCustom>
                             </ButtonArea>
                         </Card> 
                     </ContainerClient>
@@ -257,13 +315,11 @@ const Clients = () => {
                             </InputArea>
                             <InputArea>
                                 <InputCustom label='Telefone' value={phone_2Client} onChange={(e) => { setPhone_2Client(e.target.value) }} ></InputCustom>
-                                <InputCustom label='Preferências' value={preferencesClient} onChange={(e) => { setPreferencesClient(e.target.value) }} ></InputCustom>
                                 <Select options={plantsOption} isMulti onChange={(newValue) => { setPlantSelected(newValue) }} />
-                                <button onClick={() => {console.log(plantSelected)}}>aaaa</button>
                             </InputArea>
 
                             <ButtonArea>
-                                <ButtonCustom buttonEffect='delete' label='Salvar' typeButton='button' onClick={() => handleClientCreate()} ></ButtonCustom>
+                                <ButtonCustom buttonEffect='normal' label='Salvar' typeButton='button' onClick={() => handleClientCreate()} ></ButtonCustom>
                             </ButtonArea>
                         </Card>
                     </ContainerClient>

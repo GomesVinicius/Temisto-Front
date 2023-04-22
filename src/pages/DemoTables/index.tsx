@@ -20,7 +20,7 @@ const DemoTables = () => {
     const [preferencesClient, setPreferencesClient] = useState<string>('');
 
     const [client, setClient] = useState<Client>({} as Client);
-    const [clients, setClients] = useState<Client[]>([{}] as Client[]);
+    // const [clients, setClients] = useState<Client[]>([{}] as Client[]);
 
     const [openModal, setOpenModal] = useState<boolean>(false);
 
@@ -33,24 +33,24 @@ const DemoTables = () => {
     }, []);
 
     function clientShow() {
-        console.log('oi')
-        ClientService.show().then((resp) => {
-            setClients(resp.data);
-        }).catch((err) => {
-            console.log(err);
-        });
+        // console.log('oi')
+        // ClientService.show().then((resp) => {
+        //     // setClients(resp.data);
+        // }).catch((err) => {
+        //     console.log(err);
+        // });
     }
 
     function handleClientIndex(id: number) {
         open();
 
         ClientService.index(id).then((resp) => {
-            setClient(resp.data);
+            setClient(resp.data.client);
 
-            setNameClient(resp.data.name);
-            setPhone_1Client(resp.data.phone_1);
-            setPhone_2Client(resp.data.phone_2);
-            setPreferencesClient(resp.data.preferences);
+            setNameClient(resp.data.client.name);
+            setPhone_1Client(resp.data.client.phone_1);
+            setPhone_2Client(resp.data.client.phone_2);
+            // setPreferencesClient(resp.data.preferences);
 
         }).catch((err) => {
             console.log(err);
@@ -82,7 +82,7 @@ const DemoTables = () => {
                     <TableHeadCollumn>Criado</TableHeadCollumn>
                 </TableHead>
                 <TableBody>
-                            {clients.map((client, index) => {
+                            {/* {clients.map((client, index) => {
                                 return (
                                     <TableRow key={index}
                                     onClick={() => handleClientIndex(client.id)}
@@ -94,7 +94,7 @@ const DemoTables = () => {
                                         <TableColumn> {client.created_at} </TableColumn>
                                     </TableRow>
                                 )
-                            }) }
+                            }) } */}
                 </TableBody>
             </Table>
 

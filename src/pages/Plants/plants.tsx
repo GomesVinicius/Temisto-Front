@@ -27,6 +27,12 @@ const Plants = () => {
         handlePlantIndex();
     }, [])
 
+    function cleanStates() {
+        setNamePlant('');
+        setAmountPlant(0);
+        setHeightPlant(0);
+    }
+
     function handlePlantShow(id:number) {
         openEditDelete();
         PlantService.show(id).then((resp) => {
@@ -151,8 +157,8 @@ const Plants = () => {
                             </InputArea>
 
                             <ButtonArea>
-                                <ButtonCustom label='Deletar' typeButton='button' onClick={() => handlePlantDelete(plant.id) }></ButtonCustom>
-                                <ButtonCustom label='Editar' typeButton='button' onClick={() => handlePlantUpdate(plant.id) }></ButtonCustom>
+                                <ButtonCustom buttonEffect='delete' label='Deletar' typeButton='button' onClick={() => handlePlantDelete(plant.id) }></ButtonCustom>
+                                <ButtonCustom buttonEffect='edit'   label='Editar' typeButton='button' onClick={() => handlePlantUpdate(plant.id) }></ButtonCustom>
                             </ButtonArea>
                         </Card> 
                     </ContainerClient>

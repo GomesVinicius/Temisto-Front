@@ -1,6 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { Client } from '../models/Client';
 import api from '../services/api';
+import { ClientWithPreferences } from '../models/ClientsWithPreferences';
 
 interface ClientStored {
     client_id_created: number,
@@ -10,11 +11,11 @@ interface ClientStored {
 class ClientService {
     private baseURI: string = 'client';
 
-    show(query?: string): Promise<AxiosResponse<Client[]>> {
+    async show(query?: string): Promise<AxiosResponse<ClientWithPreferences[]>> {
         return api.get(`${this.baseURI}`, { params: { 'search': query }});
     }
 
-    index(id: number): Promise<AxiosResponse<Client>> {
+    index(id: number): Promise<AxiosResponse<ClientWithPreferences>> {
         return api.get(`${this.baseURI}/${id}`);
     }
 
