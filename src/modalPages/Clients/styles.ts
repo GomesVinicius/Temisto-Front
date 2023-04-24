@@ -14,7 +14,7 @@ export const Card = styled.div `
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 150px;
+    padding: 8rem;
     border-radius: 19px;
     background-color: #F9F9F9;
     

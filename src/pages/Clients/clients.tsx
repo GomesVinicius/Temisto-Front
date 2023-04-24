@@ -278,7 +278,7 @@ const Clients = () => {
                   >
                     <ContainerClient>
                         <Card>
-                            <p onClick={() => {openEditDelete()}}>
+                            <p onClick={() => {openEditDelete()}} style={{ textAlign: 'right' }} >
                                 <img src={require('../../icons/close-icon.png')}></img>
                             </p>
                             <InputArea>
@@ -308,14 +308,44 @@ const Clients = () => {
                     >
                     <ContainerClient>
                         <Card>
-                        <p onClick={() => {openCreate()}}>FECHAR</p>
+                            <p onClick={() => {openEditDelete()}} style={{ textAlign: 'right' }} >
+                                <img src={require('../../icons/close-icon.png')}></img>
+                            </p>
                             <InputArea>
                                 <InputCustom label='Nome' value={nameClient} onChange={(e) => { setNameClient(e.target.value) }}></InputCustom>
                                 <InputCustom label='Celular' value={phone_1Client} onChange={(e) => { setPhone_1Client(e.target.value) }}></InputCustom>
                             </InputArea>
                             <InputArea>
                                 <InputCustom label='Telefone' value={phone_2Client} onChange={(e) => { setPhone_2Client(e.target.value) }} ></InputCustom>
-                                <Select options={plantsOption} isMulti onChange={(newValue) => { setPlantSelected(newValue) }} />
+                                <Select
+                                    styles={{ control: (baseStyle, state) => ({
+                                        maxWidth: '18.6rem',
+                                        minWidth: '18.6rem',
+
+                                        maxHeight: '3.9rem',
+                                        minHeight: '3.9rem',
+                                        
+                                        borderRadius: '18px',
+                                        border: '0px solid',
+                                        // width: '18.6rem'
+                                        // height: '3.9rem'
+                                        // margin-bottom: '40px';
+                                    
+                                        // border-radius: '18px';
+                                        borderBlockStyle: 'solid',
+                                        borderWidth: '0px',
+                                        padding: '0 1.5rem',
+                                        margin: '0 1.5rem',
+                                    
+                                        fontSize: '1.3rem',
+                                        backgroundColor: '#E1E1E1',
+                                    
+                                        outline: '0',
+                                    
+                                        transition: '0.2s'
+                                    
+                                    }), }}
+                                    options={plantsOption} placeholder='Preferências' isMulti onChange={(newValue) => { setPlantSelected(newValue) }} />
                             </InputArea>
 
                             <ButtonArea>
