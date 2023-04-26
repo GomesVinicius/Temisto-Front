@@ -287,7 +287,48 @@ const Clients = () => {
                             </InputArea>
                             <InputArea>
                                 <InputCustom label='Telefone' value={phone_2Client} onChange={(e) => { setPhone_2Client(e.target.value) }}></InputCustom>
-                                <Select options={plantsOption} value={plantPreferencesClient} isMulti onChange={(newValue) => { setPlantPreferencesClient(newValue) }}  />
+                                <Select
+                                    styles={{ control: (baseStyle, state) => ({
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+
+                                        fontFamily: 'Roboto',
+                                        fontWeight: 300,
+
+                                        maxWidth: '18.6rem',
+                                        minWidth: '18.6rem',
+
+                                        maxHeight: '3.9rem',
+                                        minHeight: '3.9rem',
+                                        
+                                        borderRadius: '18px',
+                                        border: '0px solid',
+
+                                        borderBlockStyle: 'solid',
+                                        borderWidth: '0px',
+                                        padding: '0 1.5rem',
+                                        margin: '0 1.5rem',
+                                    
+                                        fontSize: '1.3rem',
+                                        backgroundColor: '#E1E1E1',
+                                    
+                                        outline: '0',
+                                    
+                                        transition: '0.2s',
+
+                                    
+                                    }), option: (baseStyle, state) => ({
+                                        fontFamily: 'Roboto',
+                                        fontWeight: 300,
+                                        paddingLeft: '18px',
+
+                                        ":hover": {
+                                            background: '#F9F9F9'
+                                        }
+                                    }),
+                                }}
+                                options={plantsOption} value={plantPreferencesClient} isMulti onChange={(newValue) => { setPlantPreferencesClient(newValue) }}  />
                             </InputArea>
 
                             <ButtonArea>
@@ -308,7 +349,7 @@ const Clients = () => {
                     >
                     <ContainerClient>
                         <Card>
-                            <p onClick={() => {openEditDelete()}} style={{ textAlign: 'right' }} >
+                            <p onClick={() => {openCreate()}} style={{ textAlign: 'right' }} >
                                 <img src={require('../../icons/close-icon.png')}></img>
                             </p>
                             <InputArea>
@@ -345,16 +386,17 @@ const Clients = () => {
                                     
                                         outline: '0',
                                     
-                                        transition: '0.2s'
+                                        transition: '0.2s',
+
                                     
                                     }), option: (baseStyle, state) => ({
                                         fontFamily: 'Roboto',
                                         fontWeight: 300,
+                                        paddingLeft: '18px',
 
                                         ":hover": {
                                             background: '#F9F9F9'
                                         }
-
                                     }),
                                     // valueContainer: (baseStyle, state) => ({
                                     //     display: 'flex',
