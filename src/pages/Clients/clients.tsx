@@ -319,6 +319,13 @@ const Clients = () => {
                                 <InputCustom label='Telefone' value={phone_2Client} onChange={(e) => { setPhone_2Client(e.target.value) }} ></InputCustom>
                                 <Select
                                     styles={{ control: (baseStyle, state) => ({
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+
+                                        fontFamily: 'Roboto',
+                                        fontWeight: 300,
+
                                         maxWidth: '18.6rem',
                                         minWidth: '18.6rem',
 
@@ -327,11 +334,7 @@ const Clients = () => {
                                         
                                         borderRadius: '18px',
                                         border: '0px solid',
-                                        // width: '18.6rem'
-                                        // height: '3.9rem'
-                                        // margin-bottom: '40px';
-                                    
-                                        // border-radius: '18px';
+
                                         borderBlockStyle: 'solid',
                                         borderWidth: '0px',
                                         padding: '0 1.5rem',
@@ -344,7 +347,23 @@ const Clients = () => {
                                     
                                         transition: '0.2s'
                                     
-                                    }), }}
+                                    }), option: (baseStyle, state) => ({
+                                        fontFamily: 'Roboto',
+                                        fontWeight: 300,
+
+                                        ":hover": {
+                                            background: '#F9F9F9'
+                                        }
+
+                                    }),
+                                    // valueContainer: (baseStyle, state) => ({
+                                    //     display: 'flex',
+                                    //     justifyContent: 'center',
+                                    //     alignItems: 'center',
+                                        
+                                    //     background: 'green'
+                                    // })
+                                }}
                                     options={plantsOption} placeholder='Preferências' isMulti onChange={(newValue) => { setPlantSelected(newValue) }} />
                             </InputArea>
 
